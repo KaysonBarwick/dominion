@@ -3,10 +3,10 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <mpi.h>
 
-#include "card.hpp"
-#include "cards.hpp"
+#include "cards/card.hpp"
+#include "cards/cards.hpp"
+#include "cards/supply.hpp"
 
 #define MCW MPI_COMM_WORLD
 
@@ -24,7 +24,6 @@ class Player {
         deck.insert(deck.end(), discard.begin(), discard.end());
         discard.clear();
         std::random_shuffle(deck.begin(), deck.end());
-        // std::cout << "Shuffling..." << std::endl;
     }
 
     void drawCard(){
@@ -35,8 +34,6 @@ class Player {
                 return;
             }
         }
-        // std::cout << "Drawing... " << deck.back().getName() << std::endl;
-
         hand.push_back(deck.back());
         deck.pop_back();
     }
@@ -52,9 +49,6 @@ class Player {
     }
 
     void startNewTurn(){
-        // std::cout << "\n\n--------------------\n";
-        // std::cout << "Starting new turn..." << std::endl;
-
         discard.insert(discard.end(), hand.begin(), hand.end());
         hand.clear();
         actions = 1;
@@ -63,30 +57,15 @@ class Player {
         for(int i = 0; i < 5; ++i){
             drawCard();
         }
-
-        // std::cout << "Hand: ";
-        // for(int i = 0; i < hand.size(); ++i) std::cout << " " << hand[i].getName();
-        // std::cout << std::endl << "Deck: ";
-        // for(int i = 0; i < deck.size(); ++i) std::cout << " " << deck[i].getName();
-        // std::cout << std::endl << "Discard: ";
-        // for(int i = 0; i < discard.size(); ++i) std::cout << " " << discard[i].getName();
-        // std::cout << std::endl;
-
     }
 
-    bool buyCard(Card card){
-
-        if(!isGameOver() && buys && money >= card.getCost()){
-            int toBuy = card.getId();
-            MPI_Send(&toBuy, 1, MPI_INT, 0, 0, MCW);
-            MPI_Recv(&toBuy, 1, MPI_INT, 0, 0, MCW, MPI_STATUS_IGNORE);
-            if(toBuy == card.getId()){
-                // std::cout << "Buying " << card.getName() << std::endl;
-                discard.push_back(card);
-                buys--;
-                money -= card.getCost();
-                return true;
-            }
+    bool buyCard(Supply& supply, Card card){
+        if(buys && money >= card.getCost() && supply.buyCard(card)){
+            std::cout << "Bought " << card.getName() << std::endl;
+            discard.push_back(card);
+            buys--;
+            money -= card.getCost();
+            return true;
         }
         return false;
     }
@@ -103,7 +82,8 @@ class Player {
             } else {
                 return false;
             }
-            // std::cout << "Playing " << card.getName() << std::endl;
+
+            std::cout << "Played " << card.getName() << std::endl;
 
             buys += card.getBuys();
             money += card.getMoney();
@@ -125,13 +105,6 @@ class Player {
         for(int i = 0; i < hand.size(); ++i)    score += hand[i].getPoints();
         for(int i = 0; i < deck.size(); ++i)    score += deck[i].getPoints();
         for(int i = 0; i < discard.size(); ++i) score += discard[i].getPoints();
-        // std::cout << "Score: " << score << std::endl;
         return score;
-    }
-
-    bool isGameOver(){
-        int endflag = 0;
-        MPI_Iprobe(0, 1, MCW, &endflag, MPI_STATUS_IGNORE);
-        return endflag;
     }
 };

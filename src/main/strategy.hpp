@@ -1,14 +1,16 @@
 #pragma once
 
 #include <stdlib.h>
+
 #include "player.hpp"
-#include "cards.hpp"
+#include "cards/cards.hpp"
+#include "cards/supply.hpp"
 
 class Strategy {
   public:
     virtual void playCards(Player& player){
-        bool cardPlayed = true;
-        while(cardPlayed){
+        bool cardPlayed;
+        do {
             cardPlayed = false;
             std::vector<Card> hand = player.getHand();
             for(int i = 0; i < hand.size(); ++i){
@@ -16,15 +18,15 @@ class Strategy {
                     cardPlayed = true;
                 }
             }
-        }
+        } while(cardPlayed);
     }
 
-    virtual void buyCards(Player& player){
-        player.buyCard(Province());
+    virtual void buyCards(Player& player, Supply& supply){
+        player.buyCard(supply, Province());
         int tries = 10;
         while(tries-- && player.getBuys()){
             int toBuy = rand() % 13;
-            if(toBuy != 3) player.buyCard(getCard(toBuy));
+            if(toBuy != 3) player.buyCard(supply, getCard(toBuy));
         }
 
     }
@@ -32,10 +34,10 @@ class Strategy {
 
 class MoneyStrategy : public Strategy {
   public:
-    void buyCards(Player& player){
-        player.buyCard(Province());
-        player.buyCard(Gold());
-        player.buyCard(Duchy());
-        player.buyCard(Silver());
+    virtual void buyCards(Player& player, Supply& supply){
+        player.buyCard(supply, Province());
+        player.buyCard(supply, Gold());
+        player.buyCard(supply, Duchy());
+        player.buyCard(supply, Silver());
     }
 };
