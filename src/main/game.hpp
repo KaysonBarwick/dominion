@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "player.hpp"
-#include "strategy.hpp"
+#include "strategy/strategy.hpp"
 #include "cards/supply.hpp"
 
 #define MCW MPI_COMM_WORLD

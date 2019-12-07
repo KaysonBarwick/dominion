@@ -1,19 +1,23 @@
 #include <iostream>
 #include <vector>
 
-#include "strategy.hpp"
+#include "strategy/strategy.hpp"
+#include "strategy/money.hpp"
+#include "strategy/random.hpp"
+#include "strategy/input.hpp"
 #include "game.hpp"
 
 int main(int argc, char **argv){
     srand(time(NULL));
 
+    InputStrategy inputStrategy = InputStrategy();
     MoneyStrategy moneyStrategy = MoneyStrategy();
-    Strategy strategy = Strategy();
+    RandomStrategy strategy = RandomStrategy();
     std::vector<Strategy*> strategies{
+        &inputStrategy,
         &moneyStrategy,
         &strategy,
         &strategy,
-        &strategy
     };
 
     std::vector<Card> cards{

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <unistd.h>
 
 #include "cards/card.hpp"
 #include "cards/supply.hpp"
@@ -61,7 +62,7 @@ class Player {
 
     bool buyCard(Supply& supply, Card card){
         if(buys && money >= card.getCost() && supply.buyCard(card)){
-            std::cout << "Bought " << card.getName() << std::endl;
+            std::cout << "  *Bought " << card.getName() << std::endl;
             discard.push_back(card);
             buys--;
             money -= card.getCost();
@@ -83,7 +84,8 @@ class Player {
                 return false;
             }
 
-            std::cout << "Played " << card.getName() << std::endl;
+            std::cout << "  Played " << card.getName() << std::endl;
+            usleep(350000);
 
             buys += card.getBuys();
             money += card.getMoney();
