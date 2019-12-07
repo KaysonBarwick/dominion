@@ -48,6 +48,10 @@ class Supply {
         }
     }
 
+    std::vector<Card> getSupplyCards(){
+        return cards;
+    }
+
     int howManyEmptyPiles(){
         int empty = 0;
         for(int i = 0; i < this->cardCounts.size(); ++i){
@@ -71,7 +75,7 @@ class Supply {
 
     bool buyCard(Card toBuy){
         for(int i = 0; i < this->cards.size(); ++i){
-            if(toBuy.getName() == this->cards[i].getName()){
+            if(toBuy.getName() == this->cards[i].getName() && this->cardCounts[i] > 0){
                 this->cardCounts[i]--;
                 return true;
             }

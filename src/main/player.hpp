@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "cards/card.hpp"
-#include "cards/cards.hpp"
 #include "cards/supply.hpp"
+#include "cards/cardFactory.hpp"
 
 #define MCW MPI_COMM_WORLD
 
@@ -18,7 +18,7 @@ class Player {
 
     std::vector<Card> hand;
     std::vector<Card> deck;
-    std::vector<Card> discard = starterCards;
+    std::vector<Card> discard = CardFactory::getStarterCards();
 
     void shuffle(){
         deck.insert(deck.end(), discard.begin(), discard.end());

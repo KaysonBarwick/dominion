@@ -5,6 +5,7 @@
 #include "player.hpp"
 #include "cards/cards.hpp"
 #include "cards/supply.hpp"
+#include "cards/cardFactory.hpp"
 
 class Strategy {
   public:
@@ -26,7 +27,7 @@ class Strategy {
         int tries = 10;
         while(tries-- && player.getBuys()){
             int toBuy = rand() % 13;
-            if(toBuy != 3) player.buyCard(supply, getCard(toBuy));
+            if(toBuy != 3) player.buyCard(supply, CardFactory::getCard(toBuy));
         }
 
     }

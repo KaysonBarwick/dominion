@@ -32,4 +32,9 @@ class Card {
       int getBuys(){ return buys; }
       int getDraws(){ return draws; }
       int getMoney(){ return money; }
+
+    bool operator==(const Card& other) const {
+      return name == other.name && id == other.id;
+    }
+
 };
