@@ -14,7 +14,6 @@ class MoneyStrategy : public Strategy {
     virtual void buyCards(Player& player, Supply& supply){
         player.buyCard(supply, Province());
         player.buyCard(supply, Gold());
-        player.buyCard(supply, Duchy());
         player.buyCard(supply, Silver());
     }
 };

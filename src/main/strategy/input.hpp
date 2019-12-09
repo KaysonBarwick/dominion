@@ -47,7 +47,11 @@ class InputStrategy : public Strategy {
     }
 
   public:
-    virtual void playCards(Player& player){
+    virtual void playCards(Player& player){ // For testing with instream but still defining virtual function
+        this->playCards(player, std::cin);
+    }
+    
+    void playCards(Player& player, std::istream& in){
         std::string input = "";
         std::vector<Card> hand = player.getHand();
 
@@ -55,7 +59,7 @@ class InputStrategy : public Strategy {
 
             this->printHand(player);
             std::cout << "What card would you like to play? (enter 'done' when finished): ";
-            std::cin >> input;
+            in >> input;
 
             if(input == "done"){
                 break;
@@ -82,8 +86,11 @@ class InputStrategy : public Strategy {
         }
     }
 
-    virtual void buyCards(Player& player, Supply& supply){
+    virtual void buyCards(Player& player, Supply& supply){ // For testing with instream but still defining virtual function
+        this->buyCards(player, supply, std::cin);
+    }
 
+    void buyCards(Player& player, Supply& supply, std::istream& in){
         std::vector<Card> supplyCards = supply.getSupplyCards();
         std::string input = "";
 
@@ -91,7 +98,7 @@ class InputStrategy : public Strategy {
         while(player.getBuys()){
             std::cout << std::endl << "You have (" << player.getMoney() << ") and " << player.getBuys() << " buys." << std::endl;
             std::cout << "What card would you like to buy? (enter 'done' when finished): ";
-            std::cin >> input;
+            in >> input;
             if(input == "done"){
                 break;
             } else {

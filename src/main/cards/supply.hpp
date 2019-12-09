@@ -34,6 +34,7 @@ class Supply {
     }
 
     void initSupply(int numPlayers){
+        this->cardCounts.clear();
         for(int i = 0; i < this->cards.size(); ++i){
             Card card = this->cards[i];
             if(card.getType() == Victory){
