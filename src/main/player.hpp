@@ -85,7 +85,7 @@ class Player {
             }
 
             std::cout << "  Played " << card.getName() << std::endl;
-            usleep(350000);
+            // usleep(350000);
 
             buys += card.getBuys();
             money += card.getMoney();

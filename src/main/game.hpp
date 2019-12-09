@@ -30,7 +30,7 @@ class Game {
     void play(){
         this->supply.initSupply(this->players.size());
         while(!this->isGameOver()){
-            for(int i = 0; i < players.size(); ++i){
+            for(int i = 0; i < players.size() && !this->isGameOver(); ++i){
                 std::cout << std::endl << "----------------" << std::endl;
                 std::cout << "Player " << i << "'s turn." << std::endl;
                 Strategy* strategy = this->playerStrategies[i];

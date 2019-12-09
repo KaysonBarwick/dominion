@@ -4,6 +4,7 @@
 
 #include "cards.hpp"
 #include "card.hpp"
+#include "supply.hpp"
 
 class CardFactory {
   public:
@@ -24,7 +25,15 @@ class CardFactory {
         if(id == 11){ return Market();     }
         if(id == 12){ return Woodcutter(); }
 
-        return Province();
+        return Province(); //Default to most valuable card, just to be nice ;)
+    }
+
+    static Card getSupplyCard(Supply supply, int index){
+        std::vector<Card> supplyCards = supply.getSupplyCards();
+        if(index >= supplyCards.size()){
+            return Province(); //Default to most valuable card, just to be nice ;)
+        }
+        return supplyCards[index];
     }
 
     static std::vector<Card> getStarterCards(){

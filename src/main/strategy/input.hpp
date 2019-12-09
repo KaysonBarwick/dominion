@@ -98,7 +98,7 @@ class InputStrategy : public Strategy {
                 try {
                     int number = std::stoi(input);
                     if(number < supplyCards.size()){
-                        if(!player.buyCard(supply, CardFactory::getCard(number))){
+                        if(!player.buyCard(supply, CardFactory::getSupplyCard(supply, number))){
                             std::cout << "You cannot buy that!" << std::endl;
                         }
                     }

@@ -18,8 +18,9 @@ class RandomStrategy : public Strategy {
         player.buyCard(supply, CardFactory::getCard(2)); // Prefer buying Province
         int tries = 10;
         while(tries-- && player.getBuys()){
-            int toBuy = rand() % 13;
-            if(toBuy != 3) player.buyCard(supply, CardFactory::getCard(toBuy));
+            int toBuy = rand() % supply.getSupplyCards().size();
+            //Don't buy curses or coppers
+            if(toBuy != 3 && toBuy != 4) player.buyCard(supply, CardFactory::getSupplyCard(supply, toBuy));
         }
     }
 };
