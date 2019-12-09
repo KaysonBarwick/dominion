@@ -13,5 +13,6 @@ add_executable(runTests
   strategy/randomTest.cpp
 
   playerTest.cpp
+  gameTest.cpp
 )
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
